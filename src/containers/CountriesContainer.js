@@ -5,6 +5,8 @@ import CountriesList from "../components/CountriesList";
 const CountriesContainer = () => {
 
     const [countries, setCountries] = useState([])
+    const [visitedCountries, setVisitedCountries] = useState([])
+
     useEffect(() => {
         updateCountryData();
     }, []);
@@ -15,8 +17,19 @@ const CountriesContainer = () => {
         setCountries(data);
     }
 
+    const updateVisitedlist = (countryName) => {
+        const filteredCountriesList = countries.filter((country) => {
+            return country.name.common === countryName
+        })
+
+        setVisitedCountries([...visitedCountries, filteredCountriesList[0]]);
+    }
+
     return (
-       countries ? <CountriesList countries={countries}/> : <p>Loading</p>
+        <>
+        {countries ? <CountriesList countries={countries} updateVisitedList={updateVisitedlist}/> : <p>Loading</p>}
+        {countries ? <CountriesList countries={visitedCountries}/> : <p>Loading</p>}
+       </>
     );
 
 };
