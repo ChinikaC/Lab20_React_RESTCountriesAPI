@@ -29,8 +29,8 @@ const CountriesContainer = () => {
 
         // filteredCountriesList is our original list with all of the countries in it
         // filter method is used to create a filteredCountriesList which includes all of 
-        // the countries other than the ones where the countryName does not match the
-        // common name on the API - if it doesn't it removes it from the filteredCountriesList
+        // the countries other than the ones where the countryName no longer equals the
+        // common name on the API - they get removed from the filteredCountriesList
         const filteredCountriesList = countries.filter((country)=>{
             return country.name.common !== countryName;
         })
@@ -45,7 +45,7 @@ const CountriesContainer = () => {
         // this array
         setVisitedCountries([...visitedCountries, selectedCountry]);
         // setCountries uses the filteredCountriesList to update the original countries array
-        // and doesn't include the countries from lisitedCountries or selectedCountry
+        // and doesn't include the countries from visitedCountries or selectedCountry
         setCountries(filteredCountriesList);
     }
 
