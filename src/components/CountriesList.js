@@ -1,4 +1,3 @@
-import CountriesContainer from "../containers/CountriesContainer";
 import Country from "./Country";
 
 const CountriesList = ({countries, updateVisitedList}) => {

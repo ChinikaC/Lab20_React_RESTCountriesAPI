@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import Countries from "../components/Country";
 import CountriesList from "../components/CountriesList";
 
 const CountriesContainer = () => {
@@ -17,17 +16,42 @@ const CountriesContainer = () => {
         setCountries(data);
     }
 
-    const updateVisitedlist = (countryName) => {
-        const filteredCountriesList = countries.filter((country) => {
+    // includes method is used to check whether a country has been added to
+    // visitedCountries already or not
+    const updateVisitedList = (countryName) => {
+        const alreadySelectedCountries = visitedCountries.includes((country) => {
+            return country.name.common === countryName;
+        })
+
+        if(alreadySelectedCountries){
+            return;
+        }
+
+        // filteredCountriesList is our original list with all of the countries in it
+        // filter method is used to create a filteredCountriesList which includes all of 
+        // the countries other than the ones where the countryName does not match the
+        // common name on the API - if it doesn't it removes it from the filteredCountriesList
+        const filteredCountriesList = countries.filter((country)=>{
+            return country.name.common !== countryName;
+        })
+
+        // find method finds the specific countries with the countryName in the countries array, 
+        // and these countries are stored in the selectedCountry variable
+        const selectedCountry = countries.find((country) => {
             return country.name.common === countryName
         })
 
-        setVisitedCountries([...visitedCountries, filteredCountriesList[0]]);
+        // setVisitedCountries updates the visitedCountries array and selectedCountry is added to 
+        // this array
+        setVisitedCountries([...visitedCountries, selectedCountry]);
+        // setCountries uses the filteredCountriesList to update the original countries array
+        // and doesn't include the countries from lisitedCountries or selectedCountry
+        setCountries(filteredCountriesList);
     }
 
     return (
         <>
-        {countries ? <CountriesList countries={countries} updateVisitedList={updateVisitedlist}/> : <p>Loading</p>}
+        {countries ? <CountriesList countries={countries} updateVisitedList={updateVisitedList}/> : <p>Loading</p>}
         {countries ? <CountriesList countries={visitedCountries}/> : <p>Loading</p>}
        </>
     );
